@@ -17,7 +17,7 @@ class BrandController extends Controller
         try {
             $countryCode = $request->header('CF-IPCountry');
             if ($countryCode) {
-                $country = DB::table('countries')->where('code', $countryCode)->first();
+                $country = DB::table('countries')->where('iso_code', $countryCode)->first();
                 if ($country) {
                     $brands = Brand::where('country_id', $country->id)->orderBy('rating', 'desc')->get();
                 }
