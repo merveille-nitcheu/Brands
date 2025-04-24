@@ -2,23 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeleteRequest;
 use App\Models\Brand;
+use Illuminate\Http\Request;
+use App\Http\Requests\DeleteRequest;
 use App\Http\Resources\BrandResource;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
-    public function getallbrands()
+    public function getallbrands(Request $request)
     {
         try {
-            $brands = BrandResource::collection(Brand::latest()->get());
+            $countryCode = $request->header('CF-IPCountry');
+            if ($countryCode) {
+                $country = DB::table('countries')->where('code', $countryCode)->first();
+                if ($country) {
+                    $brands = Brand::where('country_id', $country->id)->orderBy('rating', 'desc')->get();
+                }
+            }else{
+                $brands = Brand::orderBy('rating', 'desc')->get();
+            }
+
+
 
             if ($brands) {
                 // Return the list of brands
                 return $this->success([
-                    "list_brands" => $brands,
+                    "list_brands" => BrandResource::collection($brands),
                 ], "List brands fetched successfully");
             }
 
