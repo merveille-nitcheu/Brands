@@ -17,8 +17,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copier le code de l'application
 COPY . .
 
-RUN chown -R www-data:www-data /var/www/storage && \
-    chmod -R 775 /var/www/storage
+RUN chown -R www-data:www-data /var/www/storage
+RUN chmod -R 775 /var/www/storage
 
 COPY .env.example .env
 
