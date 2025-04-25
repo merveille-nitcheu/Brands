@@ -2,7 +2,7 @@
 FROM php:8.3-fpm-alpine
 
 # Installer les extensions PHP nécessaires et les outils de compilation
-RUN apk add --no-cache autoconf gcc git freetype-dev libjpeg-turbo-dev libpng-dev make sqlite-dev zip libc-dev linux-headers \
+RUN apk add --no-cache autoconf gcc git freetype-dev libjpeg-turbo-dev libpng-dev make sqlite-dev zip libc-dev linux-headers nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql pdo_sqlite \
     && pecl install xdebug \
@@ -26,8 +26,10 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && php artisan key:generate \
     && php artisan storage:link
 
-# Exposer le port 9000
-EXPOSE 9000
+COPY nginx.conf /etc/nginx/http.d/default.conf
 
-# Démarrer PHP-FPM
-CMD ["php-fpm"]
+# Exposer le port 80 de nginx
+EXPOSE 80
+
+# Démarrer PHP-FPM et nginx
+CMD ["/bin/sh", "-c", "nginx -g 'daemon off;' & php-fpm"]
