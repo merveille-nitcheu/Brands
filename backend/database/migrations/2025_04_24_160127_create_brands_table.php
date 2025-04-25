@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('brand_name')->unique();
             $table->string('brand_image')->nullable();
+            $table->string('description')->nullable();
             $table->integer('rating')->nullable();
             $table->foreignId("country_id")->constrained("countries")->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

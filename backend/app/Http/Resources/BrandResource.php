@@ -22,6 +22,7 @@ class BrandResource extends JsonResource
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
             'rating' => $this->rating,
             'brand_image' => $this->brand_image,
+            'description' => $this->description,
 
 
 
