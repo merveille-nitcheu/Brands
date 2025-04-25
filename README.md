@@ -13,6 +13,8 @@ Avant de commencer, assurez vous d'avoir installé Docker et Docker Compose
 
 Elle peut prendre un peu de temps 
 
-4. executer les migrations et les seeders lors du premier déploiement  ```docker-compose exec backend php artisan migrate --seed ```
+4. executer les migrations et les seeders lors du premier déploiement  ```docker compose exec backend php artisan migrate --seed ```
 
-5. Acceder à l'application via <ip-adress:8080>
+5. S'assurer que le port 3002 est accessible et n est pas bloqué par un parefeu 
+
+6. Acceder à l'application via <ip-adress:3002>
