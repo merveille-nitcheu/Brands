@@ -8,7 +8,7 @@ services:
     volumes:
       - ./tests:/var/www/tests
     depends_on:
-      - db
+      - database
     # ports:
     #   - "9000:9000"
     networks:
@@ -27,9 +27,9 @@ services:
     networks:
       - app-network
 
-  db:
+  database:
     image: mysql:8.0
-    container_name: db
+    container_name: database
     environment:
       MYSQL_DATABASE: brand
       MYSQL_ROOT_PASSWORD: root
