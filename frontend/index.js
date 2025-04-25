@@ -1,4 +1,4 @@
-const apiUrl = "http://backend:80/api/brand";
+const apiUrl = "http://backend:8082/api/brand";
 const itemsPerPage = 10;
 let currentPage = 1;
 let idBrand = null;
