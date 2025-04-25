@@ -24,9 +24,6 @@ class BrandController extends Controller
             }else{
                 $brands = Brand::orderBy('rating', 'desc')->get();
             }
-
-
-
             if ($brands) {
                 // Return the list of brands
                 return $this->success([
@@ -35,6 +32,16 @@ class BrandController extends Controller
             }
 
             return $this->error("Error while fecthing brand");
+        } catch (\Exception $exception) {
+
+            return $this->error($exception->getMessage());
+        }
+    }
+
+    public function getallcountries(){
+        try {
+            $countries = DB::table('countries')->get();
+            return $this->success($countries,"List brands fetched successfully");
         } catch (\Exception $exception) {
 
             return $this->error($exception->getMessage());

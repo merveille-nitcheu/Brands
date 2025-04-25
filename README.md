@@ -1,7 +1,7 @@
 # Instructions pour le Déploiement de l'application 
 Ce README explique comment déployer l'application
 ## Prérequis
-Avant de commencer, assurezvous d'avoir installé Docker et Docker Compose
+Avant de commencer, assurez vous d'avoir installé Docker et Docker Compose
 
 ### Etapes de déploiment
 

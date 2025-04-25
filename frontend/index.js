@@ -1,72 +1,118 @@
 const apiUrl = "http://localhost:8000/api/brand";
 const itemsPerPage = 10;
 let currentPage = 1;
-let idBrand =null
+let idBrand = null;
+let rating = 0;
+let currentRating = -1;
+let brand_image;
+let countries;
+let country_id;
+let isEditMode = false;
+let brandToEdit = null;
 
 // getallbrands
 async function getBrands() {
   try {
     const response = await fetch(`${apiUrl}/getallbrands`);
     const data = await response.json();
-    return  data.data.list_brands;
+    return data.data.list_brands;
   } catch (error) {
     console.error(error);
-    return []
+    return [];
   }
 }
-// store brand
-async function storeBrand() {
+
+async function getCountries() {
   try {
-    const name = document.getElementById("brand_name").value;
-    const rating = document.getElementById("rating").value;
+    const response = await fetch(`${apiUrl}/getallcountries`);
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+function populateCountries() {
+  const selectElement = document.getElementById("countries");
+  countries.forEach((country) => {
+    const option = document.createElement("option");
+    option.value = country.id;
+    option.textContent = country.country_name;
+    selectElement.appendChild(option);
+  });
+}
+
+document.getElementById("countries").addEventListener("change", function () {
+  country_id = this.value;
+});
+
+// store brand
+
+async function storeBrand(event) {
+  event.preventDefault();
+
+  try {
+    const brand_name = document.getElementById("brand_name").value;
     const description = document.getElementById("description").value;
-    const brand_image = document.getElementById("brand_image").value;
-    const brand = { name, rating, description, brand_image };
-    const response = await fetch(`${apiUrl}/storebrand`, {
+    const brandData = {
+      brand_name,
+      description,
+      brand_image,
+      rating,
+      country_id,
+    };
+    let url = `${apiUrl}/storebrand`;
+
+    if (isEditMode && brandToEdit && brandToEdit.id) {
+      url = `${apiUrl}/updatebrand`;
+      brandData.id = brandToEdit.id;
+    }
+
+    response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(brand),
+      body: JSON.stringify(brandData),
     });
+
     const data = await response.json();
-    return data;
+    if (data.success) {
+      hideCreateModal();
+      window.location.reload();
+    } else {
+      console.error("Echec de la suppression");
+    }
   } catch (error) {
     console.error(error);
   }
 }
 
 // update brand
-async function updateBrand() {}
 
-async function deleteBrand(){
 
-  if(idBrand){
-    hideDeleteModal()
+async function deleteBrand() {
+  if (idBrand) {
+    hideDeleteModal();
     try {
       const response = await fetch(`${apiUrl}/destroybrand`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({id:idBrand}),
+        body: JSON.stringify({ id: idBrand }),
       });
       const data = await response.json();
-      console.log(data)
-      if(data.success){
-        window.location.reload()
-      }else{
-        console.error('Echec de la suppression')
+      if (data.success) {
+        window.location.reload();
+      } else {
+        console.error("Echec de la suppression");
       }
-    
     } catch (error) {
       console.error(error);
     }
-
   }
-
-  
-
 }
 
 //filtrer les marques par nom
@@ -83,9 +129,10 @@ document
         brand.brand_name.toLowerCase().includes(searchQuery)
       );
       if (filteredBrands.length > 0) {
-        displayBrands(filteredBrands); 
+        displayBrands(filteredBrands);
       } else {
-        document.getElementById("brandsTableBody").innerHTML = "<tr><td colspan='6'>Aucune marque trouvée.</td></tr>";
+        document.getElementById("brandsTableBody").innerHTML =
+          "<tr><td colspan='6'>Aucune marque trouvée.</td></tr>";
       }
       document.getElementById("simple-search").value = "";
     } catch (error) {
@@ -246,15 +293,15 @@ function displayBrands(brands) {
   updatePaginationNav(startIndex, endIndex, brands.length);
 }
 
-function showDeleteModal(brandId){
-  idBrand = brandId
-  const modal = document.getElementById('delete-modal')
-  modal.classList.remove('hidden')
+function showDeleteModal(brandId) {
+  idBrand = brandId;
+  const modal = document.getElementById("delete-modal");
+  modal.classList.remove("hidden");
 }
 
-function hideDeleteModal(){
-  const modal = document.getElementById('delete-modal')
-  modal.classList.add('hidden')
+function hideDeleteModal() {
+  const modal = document.getElementById("delete-modal");
+  modal.classList.add("hidden");
 }
 
 // create rating stars
@@ -271,10 +318,57 @@ function createstarsRating(rating) {
   return stars.join("");
 }
 
+function updateRating(value) {
+  rating = parseInt(value);
+
+  if (currentRating == rating) {
+    currentRating = -1;
+  } else {
+    currentRating = rating;
+  }
+
+  const ratings = document.querySelectorAll(".star");
+  ratings.forEach((star) => {
+    const starValue = parseInt(star.value);
+    const starLabel = star.nextElementSibling;
+    const starShape = starLabel?.querySelector(".star-shape");
+    if (starShape) {
+      starShape.style.backgroundColor =
+        starValue <= currentRating ? "gold" : "lightgray";
+    } else {
+      console.log("error");
+    }
+  });
+}
+
+// Display image
+function displayImage(event) {
+  const file = event.target.files[0];
+  const imagePreview = document.getElementById("imagePreview");
+  const Defaultdisplay = document.getElementById("Defaultdisplay");
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      brand_image = e.target.result;
+      imagePreview.src = brand_image;
+      imagePreview.classList.remove("hidden");
+      Defaultdisplay.classList.add("hidden");
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.classList.add("hidden");
+    Defaultdisplay.classList.remove("hidden");
+  }
+}
 
 window.onload = async function () {
   const brands = await getBrands();
-  displayBrands(brands)
-  Paginate(brands)
+  countries = await getCountries();
+  populateCountries();
+  displayBrands(brands);
+  Paginate(brands);
   console.log(brands);
 };

@@ -24,7 +24,8 @@ class StoreBrandRequest extends FormRequest
             "brand_name" => "required|string|min:2|max:255",
             "brand_image" => "nullable|string|min:2|max:255",
             "description" => "nullable|string|min:2|max:255",
-            "rating" => "nullable|integer|min:1|max:5",
+            "rating" => "nullable|integer|min:0|max:5",
+            "country_id"=>"required|integer|min:1|exists:countries,id",
 
         ]
         ;

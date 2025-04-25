@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 // Brand routes
 Route::prefix('brand')->group(function () {
     Route::get('getallbrands', [BrandController::class, 'getallbrands']);
+    Route::get('getallcountries', [BrandController::class, 'getallcountries']);
     Route::post('storebrand', [BrandController::class, 'storebrand']);
     Route::post('showbrand', [BrandController::class, 'showbrand']);
     Route::post('updatebrand', [BrandController::class, 'updatebrand']);
