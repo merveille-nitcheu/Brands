@@ -9,7 +9,7 @@ Avant de commencer, assurez vous d'avoir installé Docker et Docker Compose
 
 2. Se deplacer à la racine du projet ```cd Brands```
 
-3. Démarrer les conteneurs ```docker-compose up -d --build```
+3. Démarrer les conteneurs ```docker compose up -d --build```
 
 Elle peut prendre un peu de temps 
 
