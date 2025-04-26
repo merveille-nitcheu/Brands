@@ -24,7 +24,6 @@ COPY .env.example .env
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && php artisan key:generate \
-    && php artisan optimize:clear \
     && php artisan storage:link
 
 # Exposer le port 9000
