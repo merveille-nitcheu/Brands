@@ -20,7 +20,7 @@ services:
       - "8082:80"
     volumes:
       - ./backend/nginx.conf:/etc/nginx/conf.d/default.conf
-      - brand_storage:/var/www/storage/app/public
+      - brand_storage:/usr/share/nginx/html/storage
     depends_on:
       - backend
     networks:
