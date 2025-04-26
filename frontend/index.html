@@ -335,7 +335,7 @@
                   type="file"
                   class="hidden"
                   accept="image/*"
-                  onchange="displayImage(event)"
+                  onchange="displayImage(event,'create')"
                 />
               </label>
             </div>
@@ -351,6 +351,198 @@
 
             <button
               data-modal-toggle="createBrandModal"
+              type="button"
+              class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            >
+              <i class="fa-solid fa-xmark mr-2"></i>
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Add Update Modal -->
+    <div
+      id="updateBrandModal"
+      tabindex="-1"
+      data-modal-backdrop="static"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full"
+    >
+      <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+        <div
+          class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5"
+        >
+          <div
+            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
+          >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Modifier la marque
+            </h3>
+            <button
+              type="button"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-toggle="updateBrandModal"
+              onclick="hideupdateModal()"
+            >
+              <i class="fa-solid fa-xmark"></i>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+
+          <div>
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Nom de la marque</label
+            >
+            <input
+              type="text"
+              name="brand_name_update"
+              id="brand_name_update"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Entrer le nom de la marque"
+              required
+            />
+          </div>
+
+          <div class="sm:col-span-2 my-4">
+            <label
+              for="description_update"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Description</label
+            ><textarea
+              id="description_update"
+              rows="4"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="entrer une description de la marque"
+            ></textarea>
+          </div>
+
+          <div class="sm:col-span-2 my-4">
+            <label
+              for="rating_update"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Note</label
+            >
+            <div class="star-wrap space-y-4 sm:flex sm:space-y-0">
+              <input
+                class="star"
+                checked
+                type="radio"
+                value="-1"
+                id="skip-star"
+                name="star-radio_update"
+                autocomplete="off"
+              />
+              <label class="star-label hidden"></label>
+              <input
+                class="star"
+                type="radio"
+                id="st-1"
+                value="1"
+                name="star-radio_update"
+                autocomplete="off"
+                onclick="updateRating(this.value)"
+              />
+              <label class="star-label" for="st-1">
+                <div class="star-shape"></div>
+              </label>
+              <input
+                class="star"
+                type="radio"
+                id="st-2"
+                value="2"
+                name="star-radio_update"
+                autocomplete="off"
+                onclick="updateRating(this.value)"
+              />
+              <label class="star-label" for="st-2">
+                <div class="star-shape"></div>
+              </label>
+              <input
+                class="star"
+                type="radio"
+                id="st-3"
+                value="3"
+                name="star-radio_update"
+                autocomplete="off"
+                onclick="updateRating(this.value)"
+              />
+              <label class="star-label" for="st-3">
+                <div class="star-shape"></div>
+              </label>
+              <input
+                class="star"
+                type="radio"
+                id="st-4"
+                value="4"
+                name="star-radio_update"
+                autocomplete="off"
+                onclick="updateRating(this.value)"
+              />
+              <label class="star-label" for="st-4">
+                <div class="star-shape"></div>
+              </label>
+              <input
+                class="star"
+                type="radio"
+                id="st-5"
+                value="5"
+                name="star-radio_update"
+                autocomplete="off"
+                onclick="updateRating(this.value)"
+              />
+              <label class="star-label" for="st-5">
+                <div class="star-shape"></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="my-4">
+            <span
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Image de la marque</span
+            >
+            <div class="flex justify-center items-center w-full">
+              <label
+                for="brand_image"
+                class="flex flex-col justify-center items-center w-full h-35 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div
+                  class="flex flex-col justify-center items-center pt-5 pb-6"
+                >
+                  <img
+                    src=""
+                    alt="Image de la marque"
+                    id="imagePreview_update"
+                  />
+                </div>
+                <input
+                  id="brand_image"
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  onchange="displayImage(event,'update')"
+                />
+              </label>
+            </div>
+          </div>
+          <div class="items-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
+            <button
+              type="submit"
+              onclick="storeBrand(event)"
+              class="w-full sm:w-auto justify-center text-white inline-flex bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Modifier
+            </button>
+
+            <button
+              data-modal-toggle="updateBrandModal"
+              onclick="hideupdateModal()"
               type="button"
               class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
             >

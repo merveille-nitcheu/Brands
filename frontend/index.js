@@ -65,9 +65,7 @@ async function storeBrand(event) {
     brandData.append("country_id", country_id);
 
     let url = `${apiUrl}/storebrand`;
-    for (const [key, value] of brandData.entries()) {
-      console.log(key, value);
-    }
+
 
     if (isEditMode && brandToEdit && brandToEdit.id) {
       url = `${apiUrl}/updatebrand`;
@@ -77,8 +75,8 @@ async function storeBrand(event) {
     response = await fetch(url, {
       method: "POST",
       headers: {
-        'Accept': 'application/json',
-    },
+        Accept: "application/json",
+      },
       body: brandData,
     });
 
@@ -95,7 +93,6 @@ async function storeBrand(event) {
 }
 
 // update brand
-
 
 async function deleteBrand() {
   if (idBrand) {
@@ -272,6 +269,11 @@ function displayBrands(brands) {
               
               <button
                 type="button"
+                onclick="populateModal({ id: ${brand.id}, brand_name: '${
+      brand.brand_name
+    }', brand_image: '${brand.brand_image}', description: '${
+      brand.description
+    }', rating: ${brand.rating} })"
                 data-drawer-target="drawer-read-product-advanced"
                 data-drawer-show="drawer-read-product-advanced"
                 aria-controls="drawer-read-product-advanced"
@@ -306,6 +308,11 @@ function showDeleteModal(brandId) {
 
 function hideDeleteModal() {
   const modal = document.getElementById("delete-modal");
+  modal.classList.add("hidden");
+}
+
+function hideupdateModal() {
+  const modal = document.getElementById("updateBrandModal");
   modal.classList.add("hidden");
 }
 
@@ -352,16 +359,23 @@ function updateRating(value) {
 }
 
 // Display image
-function displayImage(event) {
+function displayImage(event,mode) {
   brand_image = event.target.files[0];
-  const imagePreview = document.getElementById("imagePreview");
-  const Defaultdisplay = document.getElementById("Defaultdisplay");
+  let imagePreview;
+  let Defaultdisplay
+  if (mode == "update") {
+    imagePreview = document.getElementById("imagePreview_update");
+  } else if (mode == "create") {
+    imagePreview = document.getElementById("imagePreview");
+    Defaultdisplay = document.getElementById("Defaultdisplay");
+  }
+
 
   if (brand_image) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-      imagePreview.src = e.target.result;;
+      imagePreview.src = e.target.result;
       imagePreview.classList.remove("hidden");
       Defaultdisplay.classList.add("hidden");
     };
@@ -371,6 +385,25 @@ function displayImage(event) {
     imagePreview.classList.add("hidden");
     Defaultdisplay.classList.remove("hidden");
   }
+}
+
+function populateModal(brand) {
+  console.log(brand);
+  isEditMode = true;
+  brandToEdit = brand;
+  document.getElementById("brand_name_update").value = brand.brand_name;
+  document.getElementById("description_update").value = brand.description;
+
+  const ratingInputs = document.getElementsByName("star-radio_update");
+  ratingInputs.forEach((input) => {
+    if (input.value == brand.rating) {
+      input.checked = true;
+    }
+  });
+  const imagePreview = document.getElementById("imagePreview_update");
+  imagePreview.src = brand.brand_image;
+  const modal = document.getElementById("updateBrandModal");
+  modal.classList.remove("hidden");
 }
 
 window.onload = async function () {

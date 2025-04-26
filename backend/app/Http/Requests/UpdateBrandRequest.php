@@ -27,7 +27,6 @@ class UpdateBrandRequest extends FormRequest
             "brand_image" => "nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
             "rating" => "nullable|integer|min:0|max:5",
             "description" => "nullable|string|min:2|max:255",
-            "country_id"=>"required|integer|min:1|exists:countries,id",
 
         ];
     }
