@@ -1,4 +1,4 @@
-const apiUrl = "http://173.249.8.175:8082/api/brand";
+const apiUrl = "http://173.249.8.175:8002api/brand";
 const itemsPerPage = 10;
 let currentPage = 1;
 let idBrand = null;
@@ -67,11 +67,6 @@ async function storeBrand(event) {
     let url = `${apiUrl}/storebrand`;
 
 
-    if (isEditMode && brandToEdit && brandToEdit.id) {
-      url = `${apiUrl}/updatebrand`;
-      brandData.id = brandToEdit.id;
-    }
-
     response = await fetch(url, {
       method: "POST",
       headers: {
@@ -82,10 +77,53 @@ async function storeBrand(event) {
 
     const data = await response.json();
     if (data.success) {
-      hideModal();
+    
       window.location.reload();
     } else {
-      console.error("Echec de la suppression");
+      console.error("Echec de l'enregistrement");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function updateBrand(event) {
+  console.log('test')
+  event.preventDefault();
+  hideupdateModal();
+
+  try {
+    const brand_name = document.getElementById("brand_name_update")?.value??brandToEdit.brand_name;
+    const description = document.getElementById("description_update")?.value??brandToEdit.description;
+    if(brand_image == null){
+      brand_image = brandToEdit.brand_image;
+    }
+    if(rating == 0){
+      rating = brandToEdit.rating;
+    }
+    const brandData = new FormData();
+    brandData.append("brand_image", brand_image);
+    brandData.append("id", brandToEdit.id);
+    brandData.append("brand_name", brand_name);
+    brandData.append("description", description);
+    brandData.append("rating", rating);
+   
+   
+      let url = `${apiUrl}/updatebrand`;
+ 
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: brandData,
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      window.location.reload();
+    } else {
+      console.error("Echec de la modification");
     }
   } catch (error) {
     console.error(error);
