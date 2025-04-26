@@ -74,7 +74,6 @@ class BrandController extends Controller
         try {
 
             $data = $request->validated();
-            $data = $request->validated();
             $data['brand_image'] = $request->file('brand_image')->store('public/images');
             $brand = Brand::findOrFail($data['id']);
             if ($brand) {
