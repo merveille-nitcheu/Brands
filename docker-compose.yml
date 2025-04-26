@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     image: backend:v1
     container_name: backend
+    volumes:
+      - brand_storage:/var/www/storage/app/public
     depends_on:
       - database
     networks:
@@ -18,7 +20,7 @@ services:
       - "8082:80"
     volumes:
       - ./backend/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./backend/storage:/var/www/storage
+      - brand_storage:/usr/share/nginx/html/storage
     depends_on:
       - backend
     networks:
@@ -48,6 +50,7 @@ services:
 
 volumes:
   db_data_brands:
+  brand_storage:
 
 networks:
   app-network:
