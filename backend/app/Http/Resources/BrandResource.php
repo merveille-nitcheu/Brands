@@ -21,7 +21,7 @@ class BrandResource extends JsonResource
             'id' => $this->id,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
             'rating' => $this->rating,
-            'brand_image' => $this->brand_image,
+            'brand_image' => url('storage/images/' . basename($this->brand_image)),
             'description' => $this->description,
 
 

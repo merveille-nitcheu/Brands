@@ -82,25 +82,25 @@ class DataSeeder extends Seeder
 
         DB::table('brands')->insert([
             ['brand_name' => 'Adidas',
-            'brand_image' => 'https://www.adidas.com.ar/media/wysiwyg/ADIDAS/ADIDAS_LOGO.png',
+            'brand_image' => 'https://brandlogos.net/wp-content/uploads/2014/10/Adidas-logo.png',
             'description' => 'marque de calzado.',
             'rating' => 2,
             'country_id' => 1
             ],
             ['brand_name' => 'Nike',
-            'brand_image' => 'https://logos-world.net/wp-content/uploads/2021/11/Nike-Logo.png',
+            'brand_image' => 'https://brandlogos.net/wp-content/uploads/2014/10/Adidas-logo.png',
             'description' => 'marque de calzado.',
             'rating' => 3,
             'country_id' => 4
             ],
             ['brand_name' => 'Puma',
-            'brand_image' => 'https://logos-world.net/wp-content/uploads/2021/12/Puma-Logo.png',
+            'brand_image' => 'https://brandlogos.net/wp-content/uploads/2014/10/Adidas-logo.png',
             'description' => 'marque de calzado.',
             'rating' => 4,
             'country_id' => 5
             ],
             ['brand_name' => 'Reebok',
-            'brand_image' => 'https://logos-world.net/wp-content/uploads/2021/11/Reebok-Logo.png',
+            'brand_image' => 'https://brandlogos.net/wp-content/uploads/2014/10/Adidas-logo.png',
             'description' => 'marque de calzado.',
             'rating' => 5,
             'country_id' => 6
