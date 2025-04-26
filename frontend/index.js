@@ -52,6 +52,7 @@ document.getElementById("countries").addEventListener("change", function () {
 
 async function storeBrand(event) {
   event.preventDefault();
+  hideCreateModal();
 
   try {
     const brand_name = document.getElementById("brand_name").value;
@@ -305,6 +306,11 @@ function showDeleteModal(brandId) {
 
 function hideDeleteModal() {
   const modal = document.getElementById("delete-modal");
+  modal.classList.add("hidden");
+}
+
+function hideCreateModal() {
+  const modal = document.getElementById("createBrandModal");
   modal.classList.add("hidden");
 }
 
