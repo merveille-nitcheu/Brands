@@ -20,7 +20,7 @@ Modifier apiUrl dans le fichier index.js et y ajouter votre adresse ip
 
 6. Reconstruire apres la modification ```docker compose up -d --build```
 
-7. Configurer le pare-feu afin de rendre les ports 3002 et 8002 accessibles ```sudo ufw allow 8002 /3002```
+7. Configurer le pare-feu afin de rendre les ports 3002 et 8002 accessibles ```sudo ufw allow 8082 /3002```
 
 
 8. Acceder à l'application via <votre_adresse_ip:3002>
