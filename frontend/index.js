@@ -1,4 +1,4 @@
-const apiUrl = "http://173.249.8.175:8082/api/brand";
+const apiUrl = "http://173.249.8.175:8080/api/brand";
 const itemsPerPage = 10;
 let currentPage = 1;
 let idBrand = null;
