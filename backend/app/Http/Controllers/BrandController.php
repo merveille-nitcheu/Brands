@@ -53,6 +53,8 @@ class BrandController extends Controller
     {
         try {
             $data = $request->validated();
+            $data['brand_image'] = $request->file('brand_image')->store('images');
+
             $brand = Brand::firstOrCreate($data);
 
             if ($brand) {

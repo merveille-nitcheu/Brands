@@ -23,9 +23,11 @@ class UpdateBrandRequest extends FormRequest
     {
         return [
             "id" => "required|integer|min:1|exists:brands,id",
-            "brand_name" => "required|string|min:2|max:255",
+            "brand_name" => "required|string|min:2",
             "brand_image" => "nullable|string|min:2|max:255",
             "rating" => "nullable|integer|min:0|max:5",
+            "description" => "nullable|string|min:2|max:255",
+            "country_id"=>"required|integer|min:1|exists:countries,id",
 
         ];
     }

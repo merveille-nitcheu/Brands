@@ -1,4 +1,4 @@
-const apiUrl = "http://173.249.8.175:8082/api/brand";
+const apiUrl = "http://127.0.0.1:8000/api/brand";
 const itemsPerPage = 10;
 let currentPage = 1;
 let idBrand = null;
@@ -15,7 +15,7 @@ async function getBrands() {
   try {
     const response = await fetch(`${apiUrl}/getallbrands`);
     const data = await response.json();
-    return data.data.list_brands;
+    return data?.data?.list_brands;
   } catch (error) {
     console.error(error);
     return [];
@@ -26,7 +26,7 @@ async function getCountries() {
   try {
     const response = await fetch(`${apiUrl}/getallcountries`);
     const data = await response.json();
-    return data.data;
+    return data?.data;
   } catch (error) {
     console.error(error);
     return [];
@@ -35,6 +35,7 @@ async function getCountries() {
 
 function populateCountries() {
   const selectElement = document.getElementById("countries");
+  selectElement.innerHTML = '<option value="">Sélectionnez un pays</option>';
   countries.forEach((country) => {
     const option = document.createElement("option");
     option.value = country.id;
@@ -55,14 +56,17 @@ async function storeBrand(event) {
   try {
     const brand_name = document.getElementById("brand_name").value;
     const description = document.getElementById("description").value;
-    const brandData = {
-      brand_name,
-      description,
-      brand_image,
-      rating,
-      country_id,
-    };
+    const brandData = new FormData();
+    brandData.append("brand_image", brand_image);
+    brandData.append("brand_name", brand_name);
+    brandData.append("description", description);
+    brandData.append("rating", rating);
+    brandData.append("country_id", country_id);
+
     let url = `${apiUrl}/storebrand`;
+    for (const [key, value] of brandData.entries()) {
+      console.log(key, value);
+    }
 
     if (isEditMode && brandToEdit && brandToEdit.id) {
       url = `${apiUrl}/updatebrand`;
@@ -72,14 +76,14 @@ async function storeBrand(event) {
     response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(brandData),
+        'Accept': 'application/json',
+    },
+      body: brandData,
     });
 
     const data = await response.json();
     if (data.success) {
-      hideCreateModal();
+      hideModal();
       window.location.reload();
     } else {
       console.error("Echec de la suppression");
@@ -237,8 +241,8 @@ function displayBrands(brands) {
           >
             <div class="flex items-center mr-3">
               <img
-                src="https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-front-image.png"
-                alt="iMac Front Image"
+                src=${brand.brand_image}
+                alt=${brand.brand_image}
                 class="h-8 w-auto mr-3"
               />
               ${brand.brand_name}
@@ -343,21 +347,20 @@ function updateRating(value) {
 
 // Display image
 function displayImage(event) {
-  const file = event.target.files[0];
+  brand_image = event.target.files[0];
   const imagePreview = document.getElementById("imagePreview");
   const Defaultdisplay = document.getElementById("Defaultdisplay");
 
-  if (file) {
+  if (brand_image) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-      brand_image = e.target.result;
-      imagePreview.src = brand_image;
+      imagePreview.src = e.target.result;;
       imagePreview.classList.remove("hidden");
       Defaultdisplay.classList.add("hidden");
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(brand_image);
   } else {
     imagePreview.classList.add("hidden");
     Defaultdisplay.classList.remove("hidden");
